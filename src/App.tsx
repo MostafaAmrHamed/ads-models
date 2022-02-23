@@ -1,9 +1,9 @@
 import React from "react";
-
+import Signup from "./screens/Signup/Signup";
 function App() {
   return (
     <div className="App">
-      <h1 className="mt-5 text-primary-2 font-bold text-5xl"> Hello</h1>
+      <Signup />
     </div>
   );
 }
