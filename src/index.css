@@ -19,6 +19,8 @@ code {
   background-color: #3b3e44;
   padding: 0.5rem;
   border-radius: 0.5rem;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
 }
 @tailwind base;
 @tailwind components;
