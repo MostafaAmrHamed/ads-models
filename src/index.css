@@ -12,6 +12,14 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+.PhoneInputCountrySelect {
+  color: #181a1d;
+}
+.PhoneInputInput {
+  background-color: #3b3e44;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+}
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
