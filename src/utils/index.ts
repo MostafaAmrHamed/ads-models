@@ -33,11 +33,12 @@ export const SignupEmail = async (
         name: user.name,
         email: user.email,
         role: user.role,
+        phone: "",
       });
       console.log(user);
     })
     .catch((error) => {
-      console.log(error);
+      alert(error);
     });
 };
 
