@@ -19,7 +19,7 @@ const SignupWithPhone = () => {
   const [direct, setDirect] = useState(false);
   useEffect(() => {
     direct && navigate("/");
-  }, [direct]);
+  }, [direct, navigate]);
   return (
     <div className="mx-auto flex flex-col items-center mt-5">
       {verify || (
