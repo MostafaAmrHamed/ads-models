@@ -1,21 +1,27 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { FaMobileAlt } from "react-icons/fa";
-import { SignupUserWithEmail } from "../../../types/index";
-import { SignupEmail } from "../../../utils";
+import { SignupUserWithEmail } from "../../types/index";
+import { SignupEmail } from "../../utils";
 const SignupWithEmail = () => {
+  const navigate = useNavigate();
   const [user, setUser] = useState<SignupUserWithEmail>({
     name: "",
     email: "",
     password: "",
     role: "normal",
   });
+  const [direct, setDirect] = useState(false);
+  useEffect(() => {
+    direct && navigate("/");
+  }, [direct]);
 
   return (
-    <div className=" mx-auto">
+    <div className="mx-auto flex flex-col items-center mt-5">
       <div className="bg-primary-1 p-5 w-[300px] text-text rounded-lg">
         <form
           onSubmit={(e) => {
-            SignupEmail(e, user);
+            SignupEmail(e, user, setDirect);
           }}
           className=" space-y-4"
         >
@@ -62,10 +68,12 @@ const SignupWithEmail = () => {
           </div>
         </form>
       </div>
-      <div className="bg-primary-1 flex items-center p-2 rounded-md mt-2 space-x-4 text-text hover:bg-gray-700 transition-all ease-in-out hover:cursor-pointer">
-        <FaMobileAlt size={35} />
-        <span className=" text-2xl pb-2">Sign up with phone</span>
-      </div>
+      <Link to="/signupPhone">
+        <div className="bg-primary-1 w-[300px] flex items-center p-2 rounded-md mt-2 space-x-4 text-text hover:bg-gray-700 transition-all ease-in-out hover:cursor-pointer">
+          <FaMobileAlt size={35} />
+          <span className=" text-2xl pb-2">Sign up with phone</span>
+        </div>
+      </Link>
     </div>
   );
 };

@@ -1,6 +1,5 @@
 import { auth, db } from "../firebase-config";
 import { E164Number } from "libphonenumber-js/types";
-
 import {
   createUserWithEmailAndPassword,
   signInWithPhoneNumber,
@@ -22,7 +21,8 @@ declare global {
 //Signup with email
 export const SignupEmail = async (
   e: React.FormEvent<HTMLFormElement>,
-  user: SignupUserWithEmail
+  user: SignupUserWithEmail,
+  setDirect: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
   e.preventDefault();
   await createUserWithEmailAndPassword(auth, user.email, user.password)
@@ -36,6 +36,7 @@ export const SignupEmail = async (
         phone: "",
       });
       console.log(user);
+      setDirect(true);
     })
     .catch((error) => {
       alert(error);
@@ -48,7 +49,7 @@ const generateRecaptha = () => {
     "recaptcha-container",
     {
       size: "invisible",
-      callback: (response: any) => {},
+      // callback: (response: any) => {},
     },
     auth
   );
@@ -70,11 +71,15 @@ export const SignupPhone = (
     })
     .catch((error) => {
       // Error; SMS not sent
-      console.log(error);
+      alert(error);
     });
 };
 
-export const requestOTP = (otp: string, user: SignupUserWithPhone) => {
+export const RequestOTP = (
+  otp: string,
+  user: SignupUserWithPhone,
+  setDirect: React.Dispatch<React.SetStateAction<boolean>>
+) => {
   window.confirmationResult
     .confirm(otp)
     .then((result: any) => {
@@ -86,10 +91,11 @@ export const requestOTP = (otp: string, user: SignupUserWithPhone) => {
         role: user.role,
       });
       console.log(currentUser);
+      setDirect(true);
     })
     .catch((error: any) => {
       // User couldn't sign in (bad verification code?)
-      console.log(error);
+      alert(error);
     });
 };
 /*End of Signup */
