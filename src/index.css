@@ -5,11 +5,22 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #181a1d;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+.PhoneInputCountrySelect {
+  color: #181a1d;
+}
+.PhoneInputInput {
+  background-color: #3b3e44;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
 }
 @tailwind base;
 @tailwind components;

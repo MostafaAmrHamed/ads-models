@@ -1,9 +1,16 @@
 import React from "react";
+import { Routes, Route } from "react-router-dom";
+import SignupWithEmail from "./screens/Signup/SignupWithEmail";
+import SignupWithPhone from "./screens/Signup/SignupWithPhone";
 
 function App() {
   return (
-    <div className="App">
-      <h1 className="mt-5 text-primary-2 font-bold text-5xl"> Hello</h1>
+    <div className="container mx-auto">
+      <div className="h-[75px] border border-white"> Navbar </div>
+      <Routes>
+        <Route path="/signupEmail" element={<SignupWithEmail />} />
+        <Route path="/signupPhone" element={<SignupWithPhone />} />
+      </Routes>
     </div>
   );
 }
