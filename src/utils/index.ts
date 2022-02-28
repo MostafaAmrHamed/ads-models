@@ -4,9 +4,15 @@ import {
   createUserWithEmailAndPassword,
   signInWithPhoneNumber,
   RecaptchaVerifier,
+  signInWithEmailAndPassword,
+  // onAuthStateChanged,
 } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
-import { SignupUserWithEmail, SignupUserWithPhone } from "../types/index";
+import { doc, setDoc, getDoc } from "firebase/firestore";
+import {
+  LoginUserWithEmail,
+  SignupUserWithEmail,
+  SignupUserWithPhone,
+} from "../types/index";
 
 /*Start of Signup */
 declare global {
@@ -71,7 +77,7 @@ export const SignupPhone = (
     })
     .catch((error) => {
       // Error; SMS not sent
-      alert(error);
+      alert(error.message);
     });
 };
 
@@ -99,3 +105,73 @@ export const RequestOTP = (
     });
 };
 /*End of Signup */
+
+/*Start of Login */
+const getUserData = async (uid: string) => {
+  const docRef = doc(db, "users", uid);
+  const docSnap = await getDoc(docRef);
+  if (docSnap.exists()) {
+    const userData = docSnap.data();
+    console.log("Document data:", userData);
+    alert(`Hello ${userData.name}`);
+  } else {
+    // doc.data() will be undefined in this case
+    console.log("No such document!");
+  }
+};
+
+//Login via email
+export const LoginEmail = async (
+  e: React.FormEvent<HTMLFormElement>,
+  user: LoginUserWithEmail,
+  setDirect: React.Dispatch<React.SetStateAction<boolean>>
+) => {
+  e.preventDefault();
+  await signInWithEmailAndPassword(auth, user.email, user.password)
+    .then((userCredential) => {
+      // Signed in
+      const currentUser = userCredential.user;
+      getUserData(currentUser.uid);
+      setDirect(true);
+    })
+    .catch((error) => {
+      if (error.code === "auth/wrong-password") {
+        alert("Your email and password do not match, Please try again.");
+      } else if (error.code === "auth/user-not-found") {
+        alert("No account found with that email address!");
+      } else {
+        alert(error.message);
+      }
+    });
+};
+
+//Login via phone number
+export const LoginRequestOTP = (
+  otp: string,
+  setDirect: React.Dispatch<React.SetStateAction<boolean>>
+) => {
+  window.confirmationResult
+    .confirm(otp)
+    .then((result: any) => {
+      const currentUser = result.user;
+      getUserData(currentUser.uid);
+      setDirect(true);
+    })
+    .catch((error: any) => {
+      // User couldn't sign in (bad verification code?)
+      alert(error.message);
+    });
+};
+// const CheckUserLoggedIn = () => {
+//   onAuthStateChanged(auth, (user) => {
+//     if (user) {
+//       const uid = user.uid;
+//       console.log("The current user ID: " + uid);
+//       getUserData(uid);
+//     } else {
+//       console.log("No user signed in");
+//     }
+//   });
+// };
+
+/*End of Login */
