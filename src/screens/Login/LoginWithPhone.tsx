@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { MdEmail } from "react-icons/md";
-import { LoginRequestOTP, SignupPhone } from "../../utils";
+import { isPhoneExist, LoginRequestOTP, SignupPhone } from "../../utils";
 import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
 import { E164Number } from "libphonenumber-js/types";
@@ -21,8 +21,16 @@ function LoginWithPhone() {
         <>
           <div className="bg-primary-1 p-5 w-[300px] text-text rounded-lg">
             <form
-              onSubmit={(e) => {
-                SignupPhone(e, phone, setVerify);
+              onSubmit={async (e) => {
+                e.preventDefault();
+                const phoneNumber = phone ? phone.toString() : "";
+                if (await isPhoneExist(phoneNumber)) {
+                  SignupPhone(e, phone, setVerify);
+                } else {
+                  alert(
+                    "Please Signup first with this phone number " + phoneNumber
+                  );
+                }
               }}
               className=" space-y-5"
             >

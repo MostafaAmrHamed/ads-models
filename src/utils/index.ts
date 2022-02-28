@@ -7,7 +7,15 @@ import {
   signInWithEmailAndPassword,
   // onAuthStateChanged,
 } from "firebase/auth";
-import { doc, setDoc, getDoc } from "firebase/firestore";
+import {
+  doc,
+  setDoc,
+  getDoc,
+  collection,
+  query,
+  where,
+  getDocs,
+} from "firebase/firestore";
 import {
   LoginUserWithEmail,
   SignupUserWithEmail,
@@ -107,7 +115,7 @@ export const RequestOTP = (
 /*End of Signup */
 
 /*Start of Login */
-const getUserData = async (uid: string) => {
+const getUserDataByID = async (uid: string) => {
   const docRef = doc(db, "users", uid);
   const docSnap = await getDoc(docRef);
   if (docSnap.exists()) {
@@ -119,7 +127,11 @@ const getUserData = async (uid: string) => {
     console.log("No such document!");
   }
 };
-
+export const isPhoneExist = async (phone: string) => {
+  const q = query(collection(db, "users"), where("phone", "==", phone));
+  const querySnapshot = await getDocs(q);
+  return !querySnapshot.empty;
+};
 //Login via email
 export const LoginEmail = async (
   e: React.FormEvent<HTMLFormElement>,
@@ -131,7 +143,7 @@ export const LoginEmail = async (
     .then((userCredential) => {
       // Signed in
       const currentUser = userCredential.user;
-      getUserData(currentUser.uid);
+      getUserDataByID(currentUser.uid);
       setDirect(true);
     })
     .catch((error) => {
@@ -154,7 +166,7 @@ export const LoginRequestOTP = (
     .confirm(otp)
     .then((result: any) => {
       const currentUser = result.user;
-      getUserData(currentUser.uid);
+      getUserDataByID(currentUser.uid);
       setDirect(true);
     })
     .catch((error: any) => {
