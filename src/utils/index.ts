@@ -5,6 +5,7 @@ import {
   signInWithPhoneNumber,
   RecaptchaVerifier,
   signInWithEmailAndPassword,
+  sendPasswordResetEmail,
   // onAuthStateChanged,
 } from "firebase/auth";
 import {
@@ -49,7 +50,7 @@ export const SignupEmail = async (
         role: user.role,
         phone: "",
       });
-      console.log(user);
+      console.log(currentUser);
       setDirect(true);
     })
     .catch((error) => {
@@ -156,13 +157,22 @@ export const LoginEmail = async (
       }
     });
 };
-
+export const passwordReset = (email: string) => {
+  sendPasswordResetEmail(auth, email)
+    .then(() => {
+      alert("Password reset email sent!");
+    })
+    .catch((error) => {
+      if (error.code === "auth/user-not-found")
+        alert("No account found with that email address!");
+    });
+};
 //Login via phone number
-export const LoginRequestOTP = (
+export const LoginRequestOTP = async (
   otp: string,
   setDirect: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
-  window.confirmationResult
+  await window.confirmationResult
     .confirm(otp)
     .then((result: any) => {
       const currentUser = result.user;

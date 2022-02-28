@@ -53,6 +53,11 @@ const LoginWithEmail = () => {
               Login
             </button>
           </div>
+          <Link to="/resetPassword">
+            <p className="text-left text-white mt-3 hover:pl-1 transition-all ease-in-out">
+              Forgot password?
+            </p>
+          </Link>
         </form>
       </div>
       <Link to="/loginPhone">
