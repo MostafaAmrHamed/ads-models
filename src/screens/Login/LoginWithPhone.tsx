@@ -8,6 +8,7 @@ import { E164Number } from "libphonenumber-js/types";
 
 function LoginWithPhone() {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const [phone, setPhone] = useState<E164Number | undefined>();
   const [otp, setOtp] = useState("");
   const [verify, setVerify] = useState(false);
@@ -23,6 +24,7 @@ function LoginWithPhone() {
             <form
               onSubmit={async (e) => {
                 e.preventDefault();
+                setLoading(true);
                 const phoneNumber = phone ? phone.toString() : "";
                 if (await isPhoneExist(phoneNumber)) {
                   SignupPhone(e, phone, setVerify);
@@ -31,6 +33,7 @@ function LoginWithPhone() {
                     "Please Signup first with this phone number " + phoneNumber
                   );
                 }
+                setLoading(false);
               }}
               className=" space-y-5"
             >
@@ -47,6 +50,7 @@ function LoginWithPhone() {
                 <button
                   type="submit"
                   className="text-white bg-mark-1 text-xl py-1 px-6 rounded-md mt-3 font-semibold"
+                  disabled={loading}
                 >
                   Login
                 </button>
@@ -80,8 +84,11 @@ function LoginWithPhone() {
           <button
             type="button"
             className="text-white bg-mark-2 text-xl py-1 px-6 rounded-md mt-3 w-fit"
-            onClick={() => {
-              LoginRequestOTP(otp, setDirect);
+            disabled={loading}
+            onClick={async () => {
+              setLoading(true);
+              await LoginRequestOTP(otp, setDirect);
+              setLoading(false);
             }}
           >
             Verify
