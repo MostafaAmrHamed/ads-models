@@ -1,3 +1,4 @@
+import Swal from "sweetalert2";
 import { auth, db } from "../firebase-config";
 import { E164Number } from "libphonenumber-js/types";
 import {
@@ -23,6 +24,49 @@ import {
   SignupUserWithPhone,
 } from "../types/index";
 
+/*Start of alerts*/
+const errorAlert = (message: string) => {
+  Swal.fire({
+    icon: "error",
+    title: message,
+    confirmButtonText: "Ok",
+  });
+};
+const toastAlert = (message: string) => {
+  const Toast = Swal.mixin({
+    toast: true,
+    position: "top-end",
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener("mouseenter", Swal.stopTimer);
+      toast.addEventListener("mouseleave", Swal.resumeTimer);
+    },
+  });
+  Toast.fire({
+    icon: "success",
+    title: message,
+  });
+};
+const successAlert = (message: string) => {
+  Swal.fire({
+    icon: "success",
+    title: "Success!",
+    text: message,
+    confirmButtonText: "Ok",
+  });
+};
+export const alertFooter = (message: string, link: string, footer: string) => {
+  Swal.fire({
+    icon: "error",
+    title: "Oops...",
+    text: message,
+    footer: `<a href="${link}">${footer}</a>`,
+  });
+};
+/*End of alerts*/
+
 /*Start of Signup */
 declare global {
   interface Window {
@@ -42,7 +86,6 @@ export const SignupEmail = async (
   e.preventDefault();
   await createUserWithEmailAndPassword(auth, user.email, user.password)
     .then((userCredential) => {
-      // Signed in
       const currentUser = userCredential.user;
       setDoc(doc(db, "users", currentUser.uid), {
         name: user.name,
@@ -50,11 +93,11 @@ export const SignupEmail = async (
         role: user.role,
         phone: "",
       });
-      console.log(currentUser);
+      toastAlert("Signed up successfully");
       setDirect(true);
     })
     .catch((error) => {
-      alert(error);
+      errorAlert(error.code);
     });
 };
 
@@ -86,7 +129,7 @@ export const SignupPhone = (
     })
     .catch((error) => {
       // Error; SMS not sent
-      alert(error.message);
+      errorAlert(error.code);
     });
 };
 
@@ -105,12 +148,11 @@ export const RequestOTP = (
         phone: currentUser.phoneNumber,
         role: user.role,
       });
-      console.log(currentUser);
       setDirect(true);
+      toastAlert("Signed up successfully");
     })
     .catch((error: any) => {
-      // User couldn't sign in (bad verification code?)
-      alert(error);
+      errorAlert(error.code);
     });
 };
 /*End of Signup */
@@ -122,7 +164,7 @@ const getUserDataByID = async (uid: string) => {
   if (docSnap.exists()) {
     const userData = docSnap.data();
     console.log("Document data:", userData);
-    alert(`Hello ${userData.name}`);
+    // alert(`Hello ${userData.name}`);
   } else {
     // doc.data() will be undefined in this case
     console.log("No such document!");
@@ -146,25 +188,26 @@ export const LoginEmail = async (
       const currentUser = userCredential.user;
       getUserDataByID(currentUser.uid);
       setDirect(true);
+      toastAlert("Signed in successfully");
     })
     .catch((error) => {
       if (error.code === "auth/wrong-password") {
-        alert("Your email and password do not match, Please try again.");
+        errorAlert("Wrong Password!");
       } else if (error.code === "auth/user-not-found") {
-        alert("No account found with that email address!");
+        errorAlert("The user not found");
       } else {
-        alert(error.message);
+        errorAlert(error.code);
       }
     });
 };
 export const passwordReset = (email: string) => {
   sendPasswordResetEmail(auth, email)
     .then(() => {
-      alert("Password reset email sent!");
+      successAlert("Password reset email sent!");
     })
     .catch((error) => {
       if (error.code === "auth/user-not-found")
-        alert("No account found with that email address!");
+        errorAlert("No account found with that email address!");
     });
 };
 //Login via phone number
@@ -178,10 +221,11 @@ export const LoginRequestOTP = async (
       const currentUser = result.user;
       getUserDataByID(currentUser.uid);
       setDirect(true);
+      toastAlert("Signed up successfully");
     })
     .catch((error: any) => {
       // User couldn't sign in (bad verification code?)
-      alert(error.message);
+      errorAlert(error.code);
     });
 };
 // const CheckUserLoggedIn = () => {

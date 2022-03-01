@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { MdEmail } from "react-icons/md";
-import { isPhoneExist, LoginRequestOTP, SignupPhone } from "../../utils";
+import {
+  isPhoneExist,
+  LoginRequestOTP,
+  SignupPhone,
+  alertFooter,
+} from "../../utils";
 import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
 import { E164Number } from "libphonenumber-js/types";
@@ -29,8 +34,10 @@ function LoginWithPhone() {
                 if (await isPhoneExist(phoneNumber)) {
                   SignupPhone(e, phone, setVerify);
                 } else {
-                  alert(
-                    "Please Signup first with this phone number " + phoneNumber
+                  alertFooter(
+                    "This phone number isn't registered yet!",
+                    "/signupPhone",
+                    "Go to Signup?"
                   );
                 }
                 setLoading(false);

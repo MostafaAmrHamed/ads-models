@@ -2,7 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { MdEmail } from "react-icons/md";
 import { SignupUserWithPhone } from "../../types/index";
-import { RequestOTP, SignupPhone } from "../../utils";
+import {
+  alertFooter,
+  isPhoneExist,
+  RequestOTP,
+  SignupPhone,
+} from "../../utils";
 import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
 import { E164Number } from "libphonenumber-js/types";
@@ -26,8 +31,18 @@ const SignupWithPhone = () => {
         <>
           <div className="bg-primary-1 p-5 w-[300px] text-text rounded-lg">
             <form
-              onSubmit={(e) => {
-                SignupPhone(e, phone, setVerify);
+              onSubmit={async (e) => {
+                e.preventDefault();
+                const phoneNumber = phone ? phone.toString() : "";
+                if (await isPhoneExist(phoneNumber)) {
+                  alertFooter(
+                    "This phone number is already exist",
+                    "/loginPhone",
+                    "Go to Signin?"
+                  );
+                } else {
+                  SignupPhone(e, phone, setVerify);
+                }
               }}
               className=" space-y-5"
             >
