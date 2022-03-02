@@ -1,23 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { MdEmail } from "react-icons/md";
-import { SignupUserWithPhone } from "../../types/index";
 import {
-  alertFooter,
   isPhoneExist,
-  RequestOTP,
+  LoginRequestOTP,
   SignupPhone,
+  alertFooter,
 } from "../../utils";
 import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
 import { E164Number } from "libphonenumber-js/types";
 
-const SignupWithPhone = () => {
+function LoginWithPhone() {
   const navigate = useNavigate();
-  const [user, setUser] = useState<SignupUserWithPhone>({
-    name: "",
-    role: "normal",
-  });
+  const [loading, setLoading] = useState(false);
   const [phone, setPhone] = useState<E164Number | undefined>();
   const [otp, setOtp] = useState("");
   const [verify, setVerify] = useState(false);
@@ -33,30 +29,21 @@ const SignupWithPhone = () => {
             <form
               onSubmit={async (e) => {
                 e.preventDefault();
+                setLoading(true);
                 const phoneNumber = phone ? phone.toString() : "";
                 if (await isPhoneExist(phoneNumber)) {
-                  alertFooter(
-                    "This phone number is already exist",
-                    "/loginPhone",
-                    "Go to Signin?"
-                  );
-                } else {
                   SignupPhone(e, phone, setVerify);
+                } else {
+                  alertFooter(
+                    "This phone number isn't registered yet!",
+                    "/signupPhone",
+                    "Go to Signup?"
+                  );
                 }
+                setLoading(false);
               }}
               className=" space-y-5"
             >
-              <div className="flex flex-col items-center space-y-2">
-                <label className="text-2xl"> Name </label>
-                <input
-                  type="text"
-                  className="bg-primary-2 p-2 rounded-lg focus:outline-none w-full"
-                  onChange={(e) => {
-                    setUser({ ...user, name: e.target.value });
-                  }}
-                  required
-                />
-              </div>
               <div className="flex flex-col items-center space-y-2">
                 <PhoneInput
                   placeholder="Phone Number"
@@ -70,16 +57,17 @@ const SignupWithPhone = () => {
                 <button
                   type="submit"
                   className="text-white bg-mark-1 text-xl py-1 px-6 rounded-md mt-3 font-semibold"
+                  disabled={loading}
                 >
-                  Sign up
+                  Login
                 </button>
               </div>
             </form>
           </div>
-          <Link to="/signupEmail">
+          <Link to="/loginEmail">
             <div className="bg-primary-1 w-[300px] flex items-center p-2 rounded-md mt-2 space-x-4 text-text hover:bg-gray-700 transition-all ease-in-out hover:cursor-pointer">
               <MdEmail size={35} />
-              <span className=" text-2xl pb-2">Sign up with Email</span>
+              <span className=" text-2xl pb-2">Login with Email</span>
             </div>
           </Link>
           <div id="recaptcha-container"></div>
@@ -103,8 +91,11 @@ const SignupWithPhone = () => {
           <button
             type="button"
             className="text-white bg-mark-2 text-xl py-1 px-6 rounded-md mt-3 w-fit"
-            onClick={() => {
-              RequestOTP(otp, user, setDirect);
+            disabled={loading}
+            onClick={async () => {
+              setLoading(true);
+              await LoginRequestOTP(otp, setDirect);
+              setLoading(false);
             }}
           >
             Verify
@@ -113,6 +104,6 @@ const SignupWithPhone = () => {
       )}
     </div>
   );
-};
+}
 
-export default SignupWithPhone;
+export default LoginWithPhone;

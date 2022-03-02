@@ -1,12 +1,71 @@
+import Swal from "sweetalert2";
 import { auth, db } from "../firebase-config";
 import { E164Number } from "libphonenumber-js/types";
 import {
   createUserWithEmailAndPassword,
   signInWithPhoneNumber,
   RecaptchaVerifier,
+  signInWithEmailAndPassword,
+  sendPasswordResetEmail,
+  // onAuthStateChanged,
 } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
-import { SignupUserWithEmail, SignupUserWithPhone } from "../types/index";
+import {
+  doc,
+  setDoc,
+  getDoc,
+  collection,
+  query,
+  where,
+  getDocs,
+} from "firebase/firestore";
+import {
+  LoginUserWithEmail,
+  SignupUserWithEmail,
+  SignupUserWithPhone,
+} from "../types/index";
+
+/*Start of alerts*/
+const errorAlert = (message: string) => {
+  Swal.fire({
+    icon: "error",
+    title: message,
+    confirmButtonText: "Ok",
+  });
+};
+const toastAlert = (message: string) => {
+  const Toast = Swal.mixin({
+    toast: true,
+    position: "top-end",
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener("mouseenter", Swal.stopTimer);
+      toast.addEventListener("mouseleave", Swal.resumeTimer);
+    },
+  });
+  Toast.fire({
+    icon: "success",
+    title: message,
+  });
+};
+const successAlert = (message: string) => {
+  Swal.fire({
+    icon: "success",
+    title: "Success!",
+    text: message,
+    confirmButtonText: "Ok",
+  });
+};
+export const alertFooter = (message: string, link: string, footer: string) => {
+  Swal.fire({
+    icon: "error",
+    title: "Oops...",
+    text: message,
+    footer: `<a href="${link}">${footer}</a>`,
+  });
+};
+/*End of alerts*/
 
 /*Start of Signup */
 declare global {
@@ -27,7 +86,6 @@ export const SignupEmail = async (
   e.preventDefault();
   await createUserWithEmailAndPassword(auth, user.email, user.password)
     .then((userCredential) => {
-      // Signed in
       const currentUser = userCredential.user;
       setDoc(doc(db, "users", currentUser.uid), {
         name: user.name,
@@ -35,11 +93,11 @@ export const SignupEmail = async (
         role: user.role,
         phone: "",
       });
-      console.log(user);
+      toastAlert("Signed up successfully");
       setDirect(true);
     })
     .catch((error) => {
-      alert(error);
+      errorAlert(error.code);
     });
 };
 
@@ -71,7 +129,7 @@ export const SignupPhone = (
     })
     .catch((error) => {
       // Error; SMS not sent
-      alert(error);
+      errorAlert(error.code);
     });
 };
 
@@ -90,12 +148,93 @@ export const RequestOTP = (
         phone: currentUser.phoneNumber,
         role: user.role,
       });
-      console.log(currentUser);
       setDirect(true);
+      toastAlert("Signed up successfully");
     })
     .catch((error: any) => {
-      // User couldn't sign in (bad verification code?)
-      alert(error);
+      errorAlert(error.code);
     });
 };
 /*End of Signup */
+
+/*Start of Login */
+// const getUserDataByID = async (uid: string) => {
+//   const docRef = doc(db, "users", uid);
+//   const docSnap = await getDoc(docRef);
+//   if (docSnap.exists()) {
+//     const userData = docSnap.data();
+//     console.log("Document data:", userData);
+//     return userData;
+//   } else {
+//     // doc.data() will be undefined in this case
+//     console.log("No such document!");
+//     return docSnap.data();
+//   }
+// };
+export const isPhoneExist = async (phone: string) => {
+  const q = query(collection(db, "users"), where("phone", "==", phone));
+  const querySnapshot = await getDocs(q);
+  return !querySnapshot.empty;
+};
+//Login via email
+export const LoginEmail = async (
+  e: React.FormEvent<HTMLFormElement>,
+  user: LoginUserWithEmail,
+  setDirect: React.Dispatch<React.SetStateAction<boolean>>
+) => {
+  e.preventDefault();
+  await signInWithEmailAndPassword(auth, user.email, user.password)
+    .then((userCredential) => {
+      // Signed in
+      setDirect(true);
+      toastAlert("Signed in successfully");
+    })
+    .catch((error) => {
+      if (error.code === "auth/wrong-password") {
+        errorAlert("Wrong Password!");
+      } else if (error.code === "auth/user-not-found") {
+        errorAlert("The user not found");
+      } else {
+        errorAlert(error.code);
+      }
+    });
+};
+export const passwordReset = (email: string) => {
+  sendPasswordResetEmail(auth, email)
+    .then(() => {
+      successAlert("Password reset email sent!");
+    })
+    .catch((error) => {
+      if (error.code === "auth/user-not-found")
+        errorAlert("No account found with that email address!");
+    });
+};
+//Login via phone number
+export const LoginRequestOTP = async (
+  otp: string,
+  setDirect: React.Dispatch<React.SetStateAction<boolean>>
+) => {
+  await window.confirmationResult
+    .confirm(otp)
+    .then((result: any) => {
+      setDirect(true);
+      toastAlert("Signed up successfully");
+    })
+    .catch((error: any) => {
+      // User couldn't sign in (bad verification code?)
+      errorAlert(error.code);
+    });
+};
+// export const CheckUserLoggedIn = async () => {
+//   onAuthStateChanged(auth, (user) => {
+//     if (user) {
+//       const uid = user.uid;
+//       getUserDataByID(uid);
+//     } else {
+//       console.log("No user signed in");
+//       return false;
+//     }
+//   });
+// };
+
+/*End of Login */
