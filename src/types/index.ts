@@ -15,3 +15,10 @@ export type LoginUserWithEmail = {
 export type LoginUserWithPhone = {
   phone: string;
 };
+export type User = {
+  name: string;
+  email: string;
+  phone: string;
+  role: string;
+  loggedIn: boolean;
+};
