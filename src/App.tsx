@@ -1,5 +1,6 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
+import Home from "./screens/Home/Home";
 import ResetPassword from "./screens/Login/components/ResetPassword";
 import LoginWithEmail from "./screens/Login/LoginWithEmail";
 import LoginWithPhone from "./screens/Login/LoginWithPhone";
@@ -11,6 +12,7 @@ function App() {
     <div className="container mx-auto">
       <div className="h-[75px] border border-white text-white"> Navbar </div>
       <Routes>
+        <Route path="/" element={<Home />} />
         <Route path="/signupEmail" element={<SignupWithEmail />} />
         <Route path="/signupPhone" element={<SignupWithPhone />} />
         <Route path="/loginEmail" element={<LoginWithEmail />} />

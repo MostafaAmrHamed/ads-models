@@ -158,18 +158,19 @@ export const RequestOTP = (
 /*End of Signup */
 
 /*Start of Login */
-const getUserDataByID = async (uid: string) => {
-  const docRef = doc(db, "users", uid);
-  const docSnap = await getDoc(docRef);
-  if (docSnap.exists()) {
-    const userData = docSnap.data();
-    console.log("Document data:", userData);
-    // alert(`Hello ${userData.name}`);
-  } else {
-    // doc.data() will be undefined in this case
-    console.log("No such document!");
-  }
-};
+// const getUserDataByID = async (uid: string) => {
+//   const docRef = doc(db, "users", uid);
+//   const docSnap = await getDoc(docRef);
+//   if (docSnap.exists()) {
+//     const userData = docSnap.data();
+//     console.log("Document data:", userData);
+//     return userData;
+//   } else {
+//     // doc.data() will be undefined in this case
+//     console.log("No such document!");
+//     return docSnap.data();
+//   }
+// };
 export const isPhoneExist = async (phone: string) => {
   const q = query(collection(db, "users"), where("phone", "==", phone));
   const querySnapshot = await getDocs(q);
@@ -185,8 +186,6 @@ export const LoginEmail = async (
   await signInWithEmailAndPassword(auth, user.email, user.password)
     .then((userCredential) => {
       // Signed in
-      const currentUser = userCredential.user;
-      getUserDataByID(currentUser.uid);
       setDirect(true);
       toastAlert("Signed in successfully");
     })
@@ -218,8 +217,6 @@ export const LoginRequestOTP = async (
   await window.confirmationResult
     .confirm(otp)
     .then((result: any) => {
-      const currentUser = result.user;
-      getUserDataByID(currentUser.uid);
       setDirect(true);
       toastAlert("Signed up successfully");
     })
@@ -228,14 +225,14 @@ export const LoginRequestOTP = async (
       errorAlert(error.code);
     });
 };
-// const CheckUserLoggedIn = () => {
+// export const CheckUserLoggedIn = async () => {
 //   onAuthStateChanged(auth, (user) => {
 //     if (user) {
 //       const uid = user.uid;
-//       console.log("The current user ID: " + uid);
-//       getUserData(uid);
+//       getUserDataByID(uid);
 //     } else {
 //       console.log("No user signed in");
+//       return false;
 //     }
 //   });
 // };
