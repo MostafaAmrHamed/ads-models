@@ -4,13 +4,14 @@ import Home from "./screens/Home/Home";
 import ResetPassword from "./screens/Login/components/ResetPassword";
 import LoginWithEmail from "./screens/Login/LoginWithEmail";
 import LoginWithPhone from "./screens/Login/LoginWithPhone";
+import Navbar from "./screens/Navbar/Navbar";
 import SignupWithEmail from "./screens/Signup/SignupWithEmail";
 import SignupWithPhone from "./screens/Signup/SignupWithPhone";
 
 function App() {
   return (
     <div className="container mx-auto">
-      <div className="h-[75px] border border-white text-white"> Navbar </div>
+      <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/signupEmail" element={<SignupWithEmail />} />
