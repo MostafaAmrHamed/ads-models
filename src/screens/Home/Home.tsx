@@ -1,18 +1,18 @@
-import { useEffect, useState } from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import { onAuthStateChanged, signOut } from "firebase/auth";
+import { bindActionCreators } from "redux";
 import { auth, db } from "../../firebase-config";
 import { actionCreators, State } from "../../state";
-import { doc, getDoc } from "firebase/firestore";
-import { bindActionCreators } from "redux";
 import { User } from "../../types";
+
 const Home = () => {
   const dispatch = useDispatch();
   const { loggedIn, loggedOut } = bindActionCreators(actionCreators, dispatch);
   const currentUser = useSelector((state: State) => state.user);
-  // const userState = auth.currentUser ? true : false;
   useEffect(() => {
+    console.log(auth.currentUser?.email);
     onAuthStateChanged(auth, async (user) => {
       if (user) {
         const uid = user.uid;
@@ -37,22 +37,10 @@ const Home = () => {
       }
     });
   }, [auth.currentUser]);
-
   return (
     <div className="mx-auto bg-primary-1 w-fit mt-5 p-5 text-text text-2xl rounded-md">
       <h1 className="text-mark-1">Hello, {currentUser.name}</h1>
       <h1>Role: {currentUser.role}</h1>
-      <Link to="/loginEmail" className="text-blue-800 underline text-lg">
-        Login
-      </Link>
-      <button
-        onClick={() => {
-          signOut(auth);
-        }}
-      >
-        {" "}
-        Logout{" "}
-      </button>
     </div>
   );
 };
