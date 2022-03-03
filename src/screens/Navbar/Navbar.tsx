@@ -1,14 +1,20 @@
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { signOut } from "firebase/auth";
+import { auth } from "../../firebase-config";
+import { useSelector } from "react-redux";
+import { State } from "../../state";
 import OutsideClickHandler from "react-outside-click-handler";
 import { BiLogIn, BiLogOut } from "react-icons/bi";
 import { AiOutlineUserAdd } from "react-icons/ai";
 import { RiDashboardFill } from "react-icons/ri";
 import { CgMenuGridO } from "react-icons/cg";
 import { FaUserCircle } from "react-icons/fa";
-import { Link } from "react-router-dom";
-import { useState } from "react";
+
 function Navbar() {
-  const role = "admin";
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
+  const currentUser = useSelector((state: State) => state.user);
   return (
     <div className="flex flex-col md:flex-row items-center justify-center md:justify-end md:mr-2 mt-5 gap-5">
       <Link
@@ -17,9 +23,9 @@ function Navbar() {
       >
         Home
       </Link>
-      {role ? (
+      {currentUser.loggedIn ? (
         <>
-          {role === "admin" && (
+          {currentUser.role === "admin" && (
             <Link
               to="/dashboard"
               className="bg-primary-2 text-text flex items-center justify-center gap-3 px-3 rounded-md"
@@ -45,8 +51,17 @@ function Navbar() {
               </span>
               {open && (
                 <ul className="absolute w-fit bg-[#292C31] text-text text-xl mt-3 right-1 p-2 rounded-md">
-                  <li className="text-center font-semibold">Mostaf Amr</li>
-                  <li className="flex items-center gap-2 pr-7 pl-2 pb-1 mt-2 hover:bg-primary-2 cursor-pointer select-none rounded-md">
+                  <li className="text-center font-semibold">
+                    {currentUser.name}
+                  </li>
+                  <li
+                    className="flex items-center gap-2 pr-7 pl-2 pb-1 mt-2 hover:bg-primary-2 cursor-pointer select-none rounded-md"
+                    onClick={() => {
+                      signOut(auth);
+                      navigate("/");
+                      setOpen(false);
+                    }}
+                  >
                     <BiLogOut size={22} />
                     <span className="pb-1">Logout</span>
                   </li>
