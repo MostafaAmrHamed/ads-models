@@ -22,3 +22,11 @@ export type User = {
   role: string;
   loggedIn: boolean;
 };
+export type ad = {
+  id: number;
+  title: string;
+  type: string;
+  from: string;
+  to: string;
+  link: string;
+};
