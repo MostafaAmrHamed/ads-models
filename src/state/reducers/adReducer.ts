@@ -6,7 +6,15 @@ const initalState: Ad[] = [];
 const ad = (state = initalState, action: adsReducerAction) => {
   switch (action.type) {
     case ActionTypes.CREATEAD:
-      return (state = [...state, action.payload]);
+      const newAd: Ad = {
+        id: state.length,
+        title: action.payload.title,
+        type: action.payload.type,
+        link: action.payload.link,
+        from: action.payload.from,
+        to: action.payload.to,
+      };
+      return (state = [...state, newAd]);
     case ActionTypes.UPDATEAD:
       return state;
     case ActionTypes.DELETEAD:
