@@ -6,7 +6,7 @@ const initalState: Ad[] = [];
 const ad = (state = initalState, action: adsReducerAction) => {
   switch (action.type) {
     case ActionTypes.CREATEAD:
-      let newAd: Ad = {
+      const newAd: Ad = {
         id: Date.now(),
         title: action.payload.title,
         type: action.payload.type,
