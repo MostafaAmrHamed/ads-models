@@ -22,7 +22,7 @@ export type User = {
   role: string;
   loggedIn: boolean;
 };
-export type ad = {
+export type Ad = {
   id: number;
   title: string;
   type: string;

@@ -1,4 +1,4 @@
-import { User } from "../../types";
+import { Ad, User } from "../../types";
 import ActionTypes from "../actionTypes";
 
 type LoggedIn = {
@@ -9,5 +9,18 @@ type LoggedOut = {
   type: ActionTypes.LOGGEDOUT;
   payload: boolean;
 };
+type CreateAd = {
+  type: ActionTypes.CREATEAD;
+  payload: Ad;
+};
+type UpdateAd = {
+  type: ActionTypes.UPDATEAD;
+  payload: Ad;
+};
+type DeleteAd = {
+  type: ActionTypes.DELETEAD;
+  payload: number;
+};
 
 export type userReducerAction = LoggedIn | LoggedOut;
+export type adsReducerAction = CreateAd | UpdateAd | DeleteAd;
