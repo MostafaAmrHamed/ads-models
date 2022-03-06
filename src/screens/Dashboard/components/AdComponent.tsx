@@ -54,6 +54,8 @@ const AdComponent: React.FC<Ad> = ({ id, from, link, title, to, type }) => {
               from={from}
               to={to}
               link={link}
+              setUpdate={setUpdate}
+              setOption={setOption}
             />
           )}
           <div className="flex justify-end gap-2">

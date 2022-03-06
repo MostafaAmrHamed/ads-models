@@ -1,5 +1,8 @@
-import React, { useState } from "react";
-import { ad } from "../../../types";
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { bindActionCreators } from "redux";
+import { actionCreators } from "../../../state";
+import { UpdateAd as UpdateAdType } from "../../../types";
 
 const splitDate = (date: string) => {
   let split = date.split(" ");
@@ -12,7 +15,19 @@ const splitDate = (date: string) => {
   };
   return tempDate;
 };
-const UpdateAd: React.FC<ad> = ({ id, title, type, from, to, link }) => {
+
+const UpdateAd: React.FC<UpdateAdType> = ({
+  id,
+  title,
+  type,
+  from,
+  to,
+  link,
+  setUpdate,
+  setOption,
+}) => {
+  const dispatch = useDispatch();
+  const { UpdateAd } = bindActionCreators(actionCreators, dispatch);
   const [fromDate, setFromDate] = useState(splitDate(from));
   const [toDate, setToDate] = useState(splitDate(to));
   const [ad, setAd] = useState({
@@ -23,15 +38,19 @@ const UpdateAd: React.FC<ad> = ({ id, title, type, from, to, link }) => {
     from: "",
     to: "",
   });
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    UpdateAd(ad);
+    setUpdate(false);
+    setOption(false);
+  };
+  useEffect(() => {
     setAd({
       ...ad,
       from: `${fromDate.date} ${fromDate.hour}:${fromDate.minute} ${fromDate.time}`,
       to: `${toDate.date} ${toDate.hour}:${toDate.minute} ${toDate.time}`,
     });
-    console.log(ad);
-  };
+  }, [fromDate, toDate]);
   return (
     <div className="bg-primary-1 text-text text-xl w-fit p-5 rounded-lg">
       <form
