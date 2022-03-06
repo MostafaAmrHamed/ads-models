@@ -16,9 +16,14 @@ const ad = (state = initalState, action: adsReducerAction) => {
       };
       return (state = [...state, newAd]);
     case ActionTypes.UPDATEAD:
+      // let index = state.find((ad) => ad.id === action.payload.id);
+      // state[] =
       return state;
     case ActionTypes.DELETEAD:
-      return state;
+      const newAds = state.filter((ad) => {
+        return ad.id !== action.payload;
+      });
+      return (state = newAds);
     default:
       return state;
   }

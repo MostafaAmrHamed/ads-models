@@ -1,9 +1,14 @@
 import React, { useState } from "react";
-import UpdateAd from "./UpdateAd";
+import { useDispatch } from "react-redux";
+import { bindActionCreators } from "redux";
+import { actionCreators } from "../../../state";
 import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
+import UpdateAd from "./UpdateAd";
 import { Ad } from "../../../types";
 
 const AdComponent: React.FC<Ad> = ({ id, from, link, title, to, type }) => {
+  const dispatch = useDispatch();
+  const { DeleteAd } = bindActionCreators(actionCreators, dispatch);
   const [option, setOption] = useState(false);
   const [update, setUpdate] = useState(false);
   return (
@@ -55,6 +60,9 @@ const AdComponent: React.FC<Ad> = ({ id, from, link, title, to, type }) => {
             <button
               type="button"
               className="text-white bg-mark-1 text-semibold text-lg md:text-xl py-1 px-7 rounded-md"
+              onClick={() => {
+                DeleteAd(id);
+              }}
             >
               Delete
             </button>
