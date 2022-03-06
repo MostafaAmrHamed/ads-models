@@ -40,13 +40,11 @@ const Dashboard = () => {
             />
           );
         })}
-        {/* <AdComponent />
-        <AdComponent />
-        <AdComponent />
-        <AdComponent /> */}
-        {/* <h1 className="text-3xl font-semibold text-subtext">
-          The screen ads is empty!
-        </h1> */}
+        {ads.length === 0 && (
+          <h1 className="text-3xl text-center font-semibold text-subtext p-5">
+            No Ads...
+          </h1>
+        )}
       </div>
     </div>
   );
