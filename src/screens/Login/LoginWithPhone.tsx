@@ -31,6 +31,15 @@ function LoginWithPhone() {
         <div className="mx-auto flex flex-col items-center mt-5">
           {verify || (
             <>
+              <div className="bg-primary-1 p-2 w-[300px] text-text text-base text-center space-y-1 mb-2 rounded-lg">
+                <p className="text-lg border-b-2 border-primary-2 pb-1">
+                  Login as Admin
+                </p>
+                <h1>Phone: +201223411244</h1>
+                <h1>
+                  Verification Code: <span className="text-mark-2">123456</span>
+                </h1>
+              </div>
               <div className="bg-primary-1 p-5 w-[300px] text-text rounded-lg">
                 <form
                   onSubmit={async (e) => {
