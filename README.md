@@ -1,46 +1,91 @@
-# Getting Started with Create React App
+# Hi, I'm Mostafa Amr! 👋
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 🚀 About Me
 
-## Available Scripts
+I am a Frontend Developer and a Graphic Designer.
+I work using HTML, CSS, Typescript, Bootstrap, Tailwindcss and library React.js (Front-end) & Adobe Photoshop, Adobe illustrator, Adobe Xd and Figma (Graphic Design).
+I believe having experience in both design,UI UX and development allows for making the most optimal user experiences.
+I have been working as a video editor for multiple clients; using Adobe Premiere I have done a few professional montages which you can check in my portfolio.
 
-In the project directory, you can run:
+## 🔗 Links
 
-### `npm start`
+[![portfolio](https://img.shields.io/badge/my_portfolio-000?style=for-the-badge&logo=ko-fi&logoColor=white)](https://mostafa-amr.netlify.app/)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+[![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/mostafa-amr-452434188/)
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+[![Behance](https://img.shields.io/badge/behance-0A66C2?style=for-the-badge&logo=behance&logoColor=white)](https://www.behance.net/mostafaamro)
 
-### `npm test`
+# Ads-models
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+This project represents Ads models which are being displayed
+on digital advertising screen due to specific timeline and being controlled via
+Admin-dashboard website.
 
-### `npm run build`
+## Features
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- Full Authentication using Firebase and Login using mobile verification
+- List screen ads
+- Create new screen ads
+- Update existing screen ads
+- Delete existing screen ads
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Tech Stack
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+**Client:** React, Redux, Redux Persist, TailwindCSS
 
-### `npm run eject`
+**Backend as a Service(BaaS):** Firebase
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+**UI/UX(Design)**: Figma
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+**Design:** https://www.figma.com/file/CGJ3x01M9w5Lzf6cHy3Aqd/Ads-models?node-id=0%3A1
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Lessons Learned
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+- **Dealing with firebase**
+  - Authentication E-mail and OTP.
+  - Firestore store and get Data.
+- Saving states via localstroage using **Redux Persist**.
+- Set permissions for each page depends on the user role.## Color Reference
 
-## Learn More
+| Color      | Hex     |
+| ---------- | ------- |
+| Background | #181A1D |
+| Text       | #CECFD0 |
+| Subtext    | #707172 |
+| Primary 1  | #222529 |
+| Primary 2  | #3B3E44 |
+| Mark 1     | #FF3968 |
+| Mark 2     | #A2C100 |
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Run Locally
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Clone the project
+
+```bash
+  git clone https://MostafaAmrHamed/ads-models
+```
+
+Go to the project directory
+
+```bash
+  cd ads-models
+```
+
+Install dependencies
+
+```bash
+  npm install
+```
+
+Start the server
+
+```bash
+  npm run start
+```
+
+## Appendix
+
+- To use Admin-dashboard you have to get the role: **Admin**
+- **Login as Admin**
+  - E-mail: Admin@gmail.com / Password: Admin123
+  - Phone: +201223411244 / Verification code: 123456
