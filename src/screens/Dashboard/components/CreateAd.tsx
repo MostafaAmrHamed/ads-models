@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
 import { actionCreators } from "../../../state";
 import { Ad } from "../../../types";
-
+import Swal from "sweetalert2";
 const CreateAd = () => {
   const dispatch = useDispatch();
   const { createAd } = bindActionCreators(actionCreators, dispatch);
@@ -33,6 +33,13 @@ const CreateAd = () => {
     setAd({ id: 2, title: "", type: "image", link: "", from: "", to: "" });
     setFrom({ date: "", hour: "", minute: "", time: "AM" });
     setTo({ date: "", hour: "", minute: "", time: "AM" });
+    Swal.fire({
+      position: "center",
+      icon: "success",
+      title: "Your Ad has been saved",
+      showConfirmButton: false,
+      timer: 1500,
+    });
   };
   useEffect(() => {
     setAd({

@@ -5,6 +5,7 @@ import { actionCreators } from "../../../state";
 import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
 import UpdateAd from "./UpdateAd";
 import { Ad } from "../../../types";
+import Swal from "sweetalert2";
 
 const AdComponent: React.FC<Ad> = ({ id, from, link, title, to, type }) => {
   const dispatch = useDispatch();
@@ -63,7 +64,24 @@ const AdComponent: React.FC<Ad> = ({ id, from, link, title, to, type }) => {
               type="button"
               className="text-white bg-mark-1 text-semibold text-lg md:text-xl py-1 px-7 rounded-md"
               onClick={() => {
-                DeleteAd(id);
+                Swal.fire({
+                  title: "Are you sure?",
+                  text: "You won't be able to revert this!",
+                  icon: "warning",
+                  showCancelButton: true,
+                  confirmButtonColor: "#3085d6",
+                  cancelButtonColor: "#d33",
+                  confirmButtonText: "Yes, delete it!",
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                    DeleteAd(id);
+                    Swal.fire(
+                      "Deleted!",
+                      "Your Ad has been deleted.",
+                      "success"
+                    );
+                  }
+                });
               }}
             >
               Delete

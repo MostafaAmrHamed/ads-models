@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
 import { actionCreators } from "../../../state";
 import { UpdateAd as UpdateAdType } from "../../../types";
+import Swal from "sweetalert2";
 
 const splitDate = (date: string) => {
   let split = date.split(" ");
@@ -43,6 +44,13 @@ const UpdateAd: React.FC<UpdateAdType> = ({
     UpdateAd(ad);
     setUpdate(false);
     setOption(false);
+    Swal.fire({
+      position: "center",
+      icon: "success",
+      title: "Saved!",
+      showConfirmButton: false,
+      timer: 1500,
+    });
   };
   useEffect(() => {
     setAd({
@@ -194,7 +202,32 @@ const UpdateAd: React.FC<UpdateAdType> = ({
               }}
             />
           </div>
-          <div className="flex justify-end">
+          <div className="flex justify-end gap-2">
+            <button
+              type="button"
+              className="py-1 px-5 font-semibold text-white bg-mark-1 rounded-md text-right"
+              onClick={() => {
+                Swal.fire({
+                  title: "Do you want to save the changes?",
+                  showDenyButton: true,
+                  showCancelButton: true,
+                  confirmButtonText: "Save",
+                  denyButtonText: `Don't save`,
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                    UpdateAd(ad);
+                    setUpdate(false);
+                    setOption(false);
+                    Swal.fire("Saved!", "", "success");
+                  } else if (result.isDenied) {
+                    setUpdate(false);
+                    Swal.fire("Changes are not saved", "", "info");
+                  }
+                });
+              }}
+            >
+              Cancel
+            </button>
             <button
               type="submit"
               className="py-1 px-7 font-semibold text-white bg-mark-2 rounded-md text-right"
