@@ -50,14 +50,14 @@ const CreateAd = () => {
   }, [from, to]);
 
   return (
-    <div className="bg-primary-1 text-text text-xl w-fit p-5 rounded-lg">
+    <div className="bg-primary-1 text-text text-xl w-fit p-5 ml-2 rounded-lg">
       <form
         onSubmit={(e) => {
           handleSubmit(e);
         }}
-        className=" space-y-4"
+        className="space-y-4"
       >
-        <div className="flex gap-2">
+        <div className="flex flex-col md:flex-row gap-2">
           <div className="space-y-2">
             <p className="font-semibold pl-1">Title</p>
             <input
@@ -89,96 +89,112 @@ const CreateAd = () => {
         {/*From DatePicker*/}
         <div className="space-y-2">
           <p className="font-semibold pl-1">From</p>
-          <div className="flex gap-2 text-base">
-            <input
-              required
-              type="date"
-              className="bg-primary-2 text-text p-2 rounded-md focus:outline-none"
-              value={from.date}
-              onChange={(e) => {
-                setFrom({ ...from, date: e.target.value });
-              }}
-            />
-            <input
-              required
-              type="number"
-              className="bg-primary-2 text-text p-2 rounded-md w-[70px] focus:outline-none"
-              placeholder="hour"
-              value={from.hour}
-              onChange={(e) => {
-                setFrom({ ...from, hour: e.target.value });
-              }}
-            />
-            <span className="font-semibold text-3xl">:</span>
-            <input
-              required
-              type="number"
-              className="bg-primary-2 text-text p-2 rounded-md w-[70px] focus:outline-none"
-              placeholder="minute"
-              value={from.minute}
-              onChange={(e) => {
-                setFrom({ ...from, minute: e.target.value });
-              }}
-            />
-            <select
-              required
-              value={from.time}
-              onChange={(e) => {
-                setFrom({ ...from, time: e.target.value });
-              }}
-              className="bg-primary-2 p-2 rounded-md"
-            >
-              <option value="AM">AM</option>
-              <option value="PM">PM</option>
-            </select>
+          <div className="flex flex-col md:flex-row gap-2 text-base">
+            <div>
+              <input
+                required
+                type="date"
+                className="bg-primary-2 text-text p-2 rounded-md focus:outline-none"
+                value={from.date}
+                onChange={(e) => {
+                  setFrom({ ...from, date: e.target.value });
+                }}
+              />
+            </div>
+            <div className="flex gap-2">
+              <input
+                required
+                type="number"
+                min={1}
+                max={12}
+                className="bg-primary-2 text-text p-2 rounded-md w-[70px] focus:outline-none"
+                placeholder="hour"
+                value={from.hour}
+                onChange={(e) => {
+                  setFrom({ ...from, hour: e.target.value });
+                }}
+              />
+              <span className="font-semibold text-3xl">:</span>
+              <input
+                required
+                type="number"
+                min={0}
+                max={59}
+                className="bg-primary-2 text-text p-2 rounded-md w-[70px] focus:outline-none"
+                placeholder="minute"
+                value={from.minute}
+                onChange={(e) => {
+                  setFrom({ ...from, minute: e.target.value });
+                }}
+              />
+              <select
+                required
+                value={from.time}
+                onChange={(e) => {
+                  setFrom({ ...from, time: e.target.value });
+                }}
+                className="bg-primary-2 p-2 rounded-md"
+              >
+                <option value="AM">AM</option>
+                <option value="PM">PM</option>
+              </select>
+            </div>
           </div>
         </div>
 
         {/*To DatePicker*/}
         <div className="space-y-2">
-          <p className="font-semibold pl-1">TO</p>
-          <div className="flex gap-2 text-base">
-            <input
-              required
-              type="date"
-              className="bg-primary-2 text-text p-2 rounded-md focus:outline-none"
-              value={to.date}
-              onChange={(e) => {
-                setTo({ ...to, date: e.target.value });
-              }}
-            />
-            <input
-              required
-              type="number"
-              className="bg-primary-2 text-text p-2 rounded-md w-[70px] focus:outline-none"
-              placeholder="hour"
-              value={to.hour}
-              onChange={(e) => {
-                setTo({ ...to, hour: e.target.value });
-              }}
-            />
-            <span className="font-semibold text-3xl">:</span>
-            <input
-              required
-              type="number"
-              className="bg-primary-2 text-text p-2 rounded-md w-[70px] focus:outline-none"
-              placeholder="minute"
-              value={to.minute}
-              onChange={(e) => {
-                setTo({ ...to, minute: e.target.value });
-              }}
-            />
-            <select
-              required
-              value={to.time}
-              onChange={(e) => {
-                setTo({ ...to, time: e.target.value });
-              }}
-              className="bg-primary-2 p-2 rounded-md"
-            >
-              <option value="AM">AM</option>
-              <option value="PM">PM</option>
-            </select>
+          <p className="font-semibold pl-1">To</p>
+          <div className="flex flex-col md:flex-row gap-2 text-base">
+            <div>
+              <input
+                required
+                type="date"
+                className="bg-primary-2 text-text p-2 rounded-md focus:outline-none"
+                value={to.date}
+                onChange={(e) => {
+                  setTo({ ...to, date: e.target.value });
+                }}
+              />
+            </div>
+            <div className="flex gap-2">
+              <input
+                required
+                type="number"
+                min={1}
+                max={12}
+                className="bg-primary-2 text-text p-2 rounded-md w-[70px] focus:outline-none"
+                placeholder="hour"
+                value={to.hour}
+                onChange={(e) => {
+                  setTo({ ...to, hour: e.target.value });
+                }}
+              />
+              <span className="font-semibold text-3xl">:</span>
+              <input
+                required
+                type="number"
+                min={0}
+                max={59}
+                className="bg-primary-2 text-text p-2 rounded-md w-[70px] focus:outline-none"
+                placeholder="minute"
+                value={to.minute}
+                onChange={(e) => {
+                  setTo({ ...to, minute: e.target.value });
+                }}
+              />
+              <select
+                required
+                value={to.time}
+                onChange={(e) => {
+                  setTo({ ...to, time: e.target.value });
+                }}
+                className="bg-primary-2 p-2 rounded-md"
+              >
+                <option value="AM">AM</option>
+                <option value="PM">PM</option>
+              </select>
+            </div>
           </div>
           <div className="space-y-2">
             <p className="font-semibold pl-1">Link</p>
