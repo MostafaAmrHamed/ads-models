@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import AdComponent from "./components/AdComponent";
 import CreateAd from "./components/CreateAd";
-
+import { useSelector } from "react-redux";
+import { State } from "../../state";
 const Dashboard = () => {
+  const ads = useSelector((state: State) => state.ad);
   const [createAd, setCreateAd] = useState(false);
   return (
     <div className="md:ml-2 xl:mx-auto my-5 space-y-5">
@@ -25,10 +27,23 @@ const Dashboard = () => {
             <li className="col-span-4">To</li>
           </ul>
         </div>
+        {ads.map((ad, index) => {
+          return (
+            <AdComponent
+              key={index}
+              id={ad.id}
+              title={ad.title}
+              type={ad.type}
+              link={ad.link}
+              from={ad.from}
+              to={ad.to}
+            />
+          );
+        })}
+        {/* <AdComponent />
         <AdComponent />
         <AdComponent />
-        <AdComponent />
-        <AdComponent />
+        <AdComponent /> */}
         {/* <h1 className="text-3xl font-semibold text-subtext">
           The screen ads is empty!
         </h1> */}
