@@ -22,3 +22,21 @@ export type User = {
   role: string;
   loggedIn: boolean;
 };
+export type Ad = {
+  id: number;
+  title: string;
+  type: string;
+  from: string;
+  to: string;
+  link: string;
+};
+export type UpdateAd = {
+  id: number;
+  title: string;
+  type: string;
+  from: string;
+  to: string;
+  link: string;
+  setUpdate: React.Dispatch<React.SetStateAction<boolean>>;
+  setOption: React.Dispatch<React.SetStateAction<boolean>>;
+};

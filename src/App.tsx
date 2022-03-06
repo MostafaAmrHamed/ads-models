@@ -1,5 +1,6 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
+import Dashboard from "./screens/Dashboard/Dashboard";
 import Home from "./screens/Home/Home";
 import ResetPassword from "./screens/Login/components/ResetPassword";
 import LoginWithEmail from "./screens/Login/LoginWithEmail";
@@ -19,6 +20,7 @@ function App() {
         <Route path="/loginEmail" element={<LoginWithEmail />} />
         <Route path="/loginPhone" element={<LoginWithPhone />} />
         <Route path="/resetPassword" element={<ResetPassword />} />
+        <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
     </div>
   );

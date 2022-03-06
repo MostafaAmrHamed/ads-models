@@ -22,6 +22,17 @@ code {
   outline: 2px solid transparent;
   outline-offset: 2px;
 }
+
+/*remove increase and decrease button input of number*/
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

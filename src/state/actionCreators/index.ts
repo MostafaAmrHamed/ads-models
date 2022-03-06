@@ -1,6 +1,6 @@
 import { Dispatch } from "react";
-import { User } from "../../types";
-import { userReducerAction } from "../action";
+import { Ad, User } from "../../types";
+import { adsReducerAction, userReducerAction } from "../action";
 import ActionTypes from "../actionTypes";
 
 export const loggedIn = (user: User) => {
@@ -16,6 +16,30 @@ export const loggedOut = (loggedIn: boolean) => {
     dispatch({
       type: ActionTypes.LOGGEDOUT,
       payload: loggedIn,
+    });
+  };
+};
+export const createAd = (ad: Ad) => {
+  return (dispatch: Dispatch<adsReducerAction>) => {
+    dispatch({
+      type: ActionTypes.CREATEAD,
+      payload: ad,
+    });
+  };
+};
+export const UpdateAd = (ad: Ad) => {
+  return (dispatch: Dispatch<adsReducerAction>) => {
+    dispatch({
+      type: ActionTypes.UPDATEAD,
+      payload: ad,
+    });
+  };
+};
+export const DeleteAd = (id: number) => {
+  return (dispatch: Dispatch<adsReducerAction>) => {
+    dispatch({
+      type: ActionTypes.DELETEAD,
+      payload: id,
     });
   };
 };

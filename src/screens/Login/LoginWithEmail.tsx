@@ -22,6 +22,13 @@ const LoginWithEmail = () => {
     <>
       {!currentUser.loggedIn && (
         <div className="mx-auto flex flex-col items-center mt-5">
+          <div className="bg-primary-1 p-2 w-[300px] text-text text-base text-center space-y-1 mb-2 rounded-lg">
+            <p className="text-lg border-b-2 border-primary-2 pb-1">
+              Login as Admin
+            </p>
+            <h1>E-mail: Admin@gmail.com</h1>
+            <h1>Password: Admin123</h1>
+          </div>
           <div className="bg-primary-1 p-5 w-[300px] text-text rounded-lg">
             <form
               onSubmit={(e) => {

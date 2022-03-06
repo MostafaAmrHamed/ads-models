@@ -12,7 +12,6 @@ const Home = () => {
   const { loggedIn, loggedOut } = bindActionCreators(actionCreators, dispatch);
   const currentUser = useSelector((state: State) => state.user);
   useEffect(() => {
-    console.log(auth.currentUser?.email);
     onAuthStateChanged(auth, async (user) => {
       if (user) {
         const uid = user.uid;
